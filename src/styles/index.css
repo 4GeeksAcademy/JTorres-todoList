@@ -15,8 +15,14 @@
 .item:hover .btn{
     display: block !important;
 }
+.item:hover{
+    background: linear-gradient(90deg, rgba(27, 70, 244, 0.295), rgba(255, 0, 0, 0.37));
+}
 .item{
     height: 43px;
+}
+p{
+   color: rgba(255, 0, 0, 0.37);
 }
 
 /* 
