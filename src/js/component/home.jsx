@@ -2,30 +2,29 @@ import React, { useEffect, useState } from "react";
 //create your first component
 const Home = () => {
 	const [task, setTask] = useState("")
-	const [todos, setTodos] = useState([
-		{label: "Ver anime", done: false}, 
-		{label: "Trabajar", done: false},
-		{label: "Echar jueguitos", done: false},
-		{label: "Codear como enfermo", done: false}
-	])
+	const [todos, setTodos] = useState([])
 	
 	async function addTask(e){
 		if(e.code=="Enter"){
 			//aqui se agrega la tarea
 			getList(todos)
-			setTodos([...todos, {label: task, done:false}])
-			updateList()
+			let newTask ={label:task, done:false}
+			let newTodos=[...todos, newTask]
+			setTodos(newTodos)
+			updateList(newTodos)
 			console.log(task)
+			console.log(todos)
 			setTask("")
 		}
 	}
 	
 	function delTask(index){
 		//aqui se elimina la tarea
+		console.log(task)
 		let newTodos = [...todos];
 		newTodos.splice(index,1);
 		setTodos(newTodos);
-		updateList(todos);
+		updateList(newTodos);
 	}
 
 	function checkTodo(index){
@@ -54,6 +53,7 @@ const Home = () => {
 		if(response.ok){
 		let data = await response.json()
 		setTodos(data)
+		console.log(response.status)
 		}
 		return response.status
 	}
@@ -70,39 +70,21 @@ const Home = () => {
 				console.log(response.status + ": "+response.statusText)
 				return 
 			}
-			let tasksPending=await response.json()
+			let tasksPending = await response.json()
 	}
 	useEffect (()=>{
-		let modal=getModal ()
-		modal. show ()
-		loadList() .then(async status=>{
+		getList().then(async status=>{
 		if (status==404){
 		let response=await fetch(apiurl, {
 		method: "POST", 
-		body: "[]", 
+		body:JSON.stringify(todos), 
 		headers:{
 			"Content-Type": "application/json"
 		}
 		})
 		if(response.ok) return getList()
-			}
-		}).finally(()=>modal.hide())
-		},[])
-
-	// useEffect(()=>{
-	// 	getList().then(async status=>{
-	// 		if(status==404){
-	// 			let response = await fetch("https://assets.breatheco.de/apis/fake/todos/user/Lapi"),{
-	// 				method:"POST",
-	// 				body:"[]",
-	// 				headers:{
-	// 					"Content-Type":"application/json"
-	// 				}
-	// 			})
-
-	// 		}
-	// 	})
-	// })
+		
+		}})})
 
 	return (
 		<>
